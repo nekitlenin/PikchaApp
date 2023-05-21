@@ -17,13 +17,15 @@
 </div>
 <fieldset>
     <legend>Добавить пост</legend>
-    <form name="post" action="/users/${userId}/posts/add" method="post">
-        Заголовок: <label>
-            <input type="text" name="title"/>
-        </label><br/>
-        Содержание: <label>
-            <input type="text" name="text"/>
-        </label><br/>
+    <form class="form" name="post" action="/users/${userId}/posts/add" method="post">
+        <div class="form-group">
+            <label class="label">Заголовок:</label>
+            <input class="input-field" type="text" name="title"/>
+        </div>
+        <div class="form-group">
+            <label class="label">Содержание:</label>
+            <input class="input-field" type="text" name="text"/>
+        </div>
         <input class="button" type="submit" value="Добавить ✅"/>
         <a href="/users/${userId}/posts">
             <input class="button" type="button" value="Отмена ❌">

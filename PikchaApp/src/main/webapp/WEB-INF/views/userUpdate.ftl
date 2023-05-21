@@ -15,25 +15,28 @@
 <br>
 <fieldset>
     <legend>Редактировать пользователей</legend>
-    <form name="user" action="/users/update" method="post">
-        Идентификатор: <label>
-            <input type="number" name="id" value="${user.id}" readonly/>
-        </label><br/>
-        Имя: <label>
-            <input type="text" name="name" value="${user.name}"/>
-        </label><br/>
-        Почта: <label>
-            <input type="email" name="email" value="${user.email}"/>
-        </label><br/>
-        Пароль: <label>
-            <input type="password" name="password" value="${user.password}"/>
-        </label><br/>
+    <form class="form" name="user" action="/users/update" method="post">
+        <div class="form-group">
+            <label class="label">Идентификатор:</label>
+            <input class="input-field" type="number" name="id" value="${user.id}" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="label">Имя:</label>
+            <input class="input-field" type="text" name="name" value="${user.name}"/>
+        </div>
+        <div class="form-group">
+            <label class="label">Почта:</label>
+            <input class="input-field" type="email" name="email" value="${user.email}"/>
+        </div>
+        <div class="form-group">
+            <label class="label">Пароль:</label>
+            <input class="input-field" type="password" name="password" value="${user.password}"/>
+        </div>
         <input class="button" type="submit" value="Изменить 🔄"/>
         <a href="/users">
             <input class="button" type="button" value="Отмена ❌">
         </a>
     </form>
 </fieldset>
-<br/>
 </body>
 </html>

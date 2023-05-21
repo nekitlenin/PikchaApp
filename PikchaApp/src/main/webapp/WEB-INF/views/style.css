@@ -73,6 +73,29 @@ fieldset {
     color: red;
 }
 
+.form-group {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+.label {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.input-field {
+    flex: 1;
+    /*padding: 5px;*/
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /*************/
 /*   posts   */
 /*************/

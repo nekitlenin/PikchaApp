@@ -14,19 +14,20 @@
 <img class="logo-img-top" src="/resources/logo.png" alt="Логотип">
 <fieldset>
     <legend>Редактировать пост</legend>
-    <form name="user" action="/users/${userId}/posts/${post.id}/update" method="post">
-        Заголовок: <label>
-            <input type="text" name="title" value="${post.title}"/>
-        </label><br/>
-        Содержание: <label>
-            <input type="text" name="text" value="${post.text}"/>
-        </label><br/>
+    <form class="form" name="user" action="/users/${userId}/posts/${post.id}/update" method="post">
+        <div class="form-group">
+            <label class="label">Заголовок:</label>
+            <input class="input-field" type="text" name="title" value="${post.title}"/>
+        </div>
+        <div class="form-group">
+            <label class="label">Содержание:</label>
+            <input class="input-field" type="text" name="text" value="${post.text}"/>
+        </div>
         <input class="button" type="submit" value="Изменить ✅"/>
         <a href="/users/${userId}/posts">
             <input class="button" type="button" value="Отмена ❌">
         </a>
     </form>
 </fieldset>
-<br/>
 </body>
 </html>

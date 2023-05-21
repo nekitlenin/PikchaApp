@@ -17,16 +17,19 @@
 </div>
 <fieldset>
     <legend>Добавить пользователя</legend>
-    <form name="user" action="/users/add" method="post">
-        Имя: <label>
-            <input type="text" name="name"/>
-        </label><br/>
-        Почта: <label>
-            <input type="email" name="email"/>
-        </label><br/>
-        Пароль: <label>
-            <input type="password" name="password"/>
-        </label><br/>
+    <form class="form" name="user" action="/users/add" method="post">
+        <div class="form-group">
+            <label class="label">Имя:</label>
+            <input class="input-field" type="text" name="name"/>
+        </div>
+        <div class="form-group">
+            <label class="label">Почта:</label>
+            <input class="input-field" type="email" name="email"/>
+        </div>
+        <div class="form-group">
+            <label class="label">Пароль:</label>
+            <input class="input-field" type="password" name="password"/>
+        </div>
         <input class="button" type="submit" value="Добавить ✅"/>
         <a href="/users">
             <input class="button" type="button" value="Отмена ❌">

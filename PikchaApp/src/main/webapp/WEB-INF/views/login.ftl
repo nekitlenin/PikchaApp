@@ -15,14 +15,18 @@
     <img class="logo-img" src="/resources/logo.png" alt="Логотип">
     <h1>Вход</h1>
     <fieldset>
-        <form name="user" action="/login" method="post">
-            Email: <label>
-                <input type="email" name="email"/>
-            </label><br/>
-            Пароль: <label>
-                <input type="password" name="password"/>
-            </label><br/>
-            <input class="button" type="submit" value="Войти ✅"/>
+        <form class="form" name="user" action="/login" method="post">
+            <div class="form-group">
+                <label class="label">Email:</label>
+                <input class="input-field" type="email" name="email"/>
+            </div>
+            <div class="form-group">
+                <label class="label">Пароль:</label>
+                <input class="input-field" type="password" name="password"/>
+            </div>
+            <div class="form-group center">
+                <input class="button" type="submit" value="Войти ✅"/>
+            </div>
         </form>
         <div class="error">
             <#if error?has_content>
