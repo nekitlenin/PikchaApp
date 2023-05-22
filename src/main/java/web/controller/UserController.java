@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String addUser(@PathVariable("userId") Long userId, Model model, User user) {
+    public String addUser(User user) {
         userService.saveUser(user);
         return REDIRECT;
     }
