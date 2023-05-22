@@ -36,7 +36,7 @@ public class Post {
     @Column(name = "date_create")
     private LocalDate dateCreate;
 
-    @ManyToOne/*(fetch = FetchType.EAGER)*/
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }
