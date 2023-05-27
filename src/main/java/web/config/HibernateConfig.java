@@ -74,21 +74,21 @@ public class HibernateConfig {
         return transactionManager;
     }
 
-    @Bean
-    public FreeMarkerViewResolver freemarkerViewResolver() {
-        FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
-        resolver.setCache(true);
-        resolver.setPrefix("");
-        resolver.setSuffix(".ftl");
-        resolver.setContentType("text/html; charset=UTF-8");
-        return resolver;
-    }
-
-    @Bean
-    public FreeMarkerConfigurer freemarkerConfig() {
-        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
-        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/views/");
-        freeMarkerConfigurer.setDefaultEncoding("UTF-8");
-        return freeMarkerConfigurer;
-    }
+//    @Bean
+//    public FreeMarkerViewResolver freemarkerViewResolver() {
+//        FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
+//        resolver.setCache(true);
+//        resolver.setPrefix("");
+//        resolver.setSuffix(".ftl");
+//        resolver.setContentType("text/html; charset=UTF-8");
+//        return resolver;
+//    }
+//
+//    @Bean
+//    public FreeMarkerConfigurer freemarkerConfig() {
+//        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+//        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/views/");
+//        freeMarkerConfigurer.setDefaultEncoding("UTF-8");
+//        return freeMarkerConfigurer;
+//    }
 }

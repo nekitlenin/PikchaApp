@@ -28,7 +28,7 @@
                 <td>${user.name}</td>
                 <td>${user.email}</td>
                 <td>
-                    <a href="/users/${user.id}/posts">
+                    <a href="/posts/${user.id}">
                         <button class="button">Посты</button>
                     </a>
                     <a href="/users/update/${user.id}">

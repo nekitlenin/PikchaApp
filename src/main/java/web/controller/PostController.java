@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import web.model.Post;
 import web.service.PostServiceEntity;
 import web.service.UserServiceEntity;
@@ -24,10 +25,10 @@ import java.time.LocalDate;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/users/{userId}/posts")
+@RequestMapping("/posts/{userId}")
 public class PostController {
 
-    private final PostServiceEntity postService;
+    private final PostServiceEntity postRepository;
     private final UserServiceEntity userService;
 
     /**
@@ -36,21 +37,21 @@ public class PostController {
      * @param userId идентификатор пользователя
      */
     @GetMapping()
-    public String allPostsOfUser(@PathVariable("userId") Long userId,
-                                 @RequestParam(defaultValue = "10") int pageSize,
-                                 @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "default") String sortType,
-                                 Model model) {
+    public ModelAndView allPostsOfUser(@PathVariable("userId") Long userId,
+                                       @RequestParam(defaultValue = "10") int pageSize,
+                                       @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "default") String sortType) {
         Page<Post> result;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("posts");
 
         if (!isCorrect(pageSize, page))
-            model.addAttribute("error", "Страница должна быть >= 0, а размер страницы должен быть > 0");
+            modelAndView.addObject("error", "Страница должна быть >= 0, а размер страницы должен быть > 0");
         if (pageSize <= -1 || page <= -1)
-            result = postService.getPostsByUserId(userId, Pageable.unpaged());
+            result = postRepository.getPostsByUserId(userId, Pageable.unpaged());
         else
             result = getResult(userId, page, pageSize, sortType);
-        addAttributes(model, userId, pageSize, page, sortType, result);
-        return "posts";
+        return addAttributes(modelAndView, userId, pageSize, page, sortType, result);
     }
 
     private boolean isCorrect(int pageSize, int page) {
@@ -59,26 +60,25 @@ public class PostController {
 
     private Page<Post> getResult(Long userId, int page, int pageSize, String sortType) {
         if (sortType.equals("date"))
-            return postService.getPostsByUserId(userId, PageRequest.of(
+            return postRepository.getPostsByUserId(userId, PageRequest.of(
                     page, pageSize, Sort.by("dateCreate").ascending()));
         else if (sortType.equals("title"))
-            return postService.getPostsByUserId(userId, PageRequest.of(
+            return postRepository.getPostsByUserId(userId, PageRequest.of(
                     page, pageSize, Sort.by("title").ascending()));
         else
-            return postService.getPostsByUserId(userId, PageRequest.of(page, pageSize));
+            return postRepository.getPostsByUserId(userId, PageRequest.of(page, pageSize));
     }
 
-    private void addAttributes(Model model, Long userId, int pageSize,
+    private ModelAndView addAttributes(ModelAndView model, Long userId, int pageSize,
                                int page, String sortType, Page<Post> result) {
-        model.addAttribute("user", userService.getUserById(userId));
-
-        model.addAttribute("page", pageSize);
-        model.addAttribute("pageSize", page);
-        model.addAttribute("sortType", sortType);
-
-        model.addAttribute("postList", result.getContent());
-        model.addAttribute("totalPosts", result.getTotalElements());
-        model.addAttribute("totalPages", result.getTotalPages());
+        model.addObject("user", userService.get(userId));
+        model.addObject("page", pageSize);
+        model.addObject("pageSize", page);
+        model.addObject("sortType", sortType);
+        model.addObject("postList", result.getContent());
+        model.addObject("totalPosts", result.getTotalElements());
+        model.addObject("totalPages", result.getTotalPages());
+        return model;
     }
 
     /**
@@ -94,10 +94,10 @@ public class PostController {
 
     @PostMapping("/add")
     public String addPost(@PathVariable("userId") Long userId, Post post) {
-        post.setUser(userService.getUserById(userId));
+        post.setUser(userService.get(userId));
         post.setDateCreate(LocalDate.now());
-        postService.savePost(post);
-        return "redirect:/users/" + userId + "/posts";
+        postRepository.save(post);
+        return "redirect:/posts/" + userId;
     }
 
     /**
@@ -106,20 +106,20 @@ public class PostController {
      * @param userId идентификатор пользователя
      * @param postId идентификатор поста
      */
-    @GetMapping("/{postId}/update")
+    @GetMapping("/update/{postId}")
     public String updatePost(@PathVariable("userId") Long userId,
                              @PathVariable("postId") Long postId, Model model) {
-        model.addAttribute("post", postService.getPostById(postId));
+        model.addAttribute("post", postRepository.getPostById(postId));
         model.addAttribute("userId", userId);
         return "postUpdate";
     }
 
-    @PostMapping("/{postId}/update")
+    @PostMapping("/update/{postId}")
     public String updatePost(@PathVariable("userId") Long userId, @PathVariable Long postId, Post post) {
-        post.setUser(userService.getUserById(userId));
+        post.setUser(userService.get(userId));
         post.setDateCreate(LocalDate.now());
-        postService.savePost(post);
-        return "redirect:/users/" + userId + "/posts";
+        postRepository.save(post);
+        return "redirect:/posts/" + userId;
     }
 
     /**
@@ -128,9 +128,9 @@ public class PostController {
      * @param userId идентификатор пользователя
      * @param postId идентификатор поста
      */
-    @GetMapping("/{postId}/delete")
+    @GetMapping("/delete/{postId}")
     public String deletePost(@PathVariable("userId") Long userId, @PathVariable("postId") Long postId) {
-        postService.deleteById(postId);
-        return "redirect:/users/" + userId + "/posts";
+        postRepository.deleteById(postId);
+        return "redirect:/posts/" + userId;
     }
 }

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Редактор</title>
+    <link rel="stylesheet" th:href="@{/resources/style.css}" />
+</head>
+<body>
+<img class="logo-img-top" th:src="@{/resources/logo.png}" alt="Логотип">
+<br>
+<fieldset>
+    <legend>Редактировать пользователей</legend>
+    <form class="form" name="user" th:action="@{/users/update}" method="post" th:object="${user}">
+        <div class="form-group">
+            <label class="label">Идентификатор:</label>
+            <input class="input-field" type="number" name="id" th:value="*{id}" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="label">Имя:</label>
+            <input class="input-field" type="text" name="name" th:value="*{name}"/>
+        </div>
+        <div class="form-group">
+            <label class="label">Почта:</label>
+            <input class="input-field" type="email" name="email" th:value="*{email}"/>
+        </div>
+        <div class="form-group">
+            <label class="label">Пароль:</label>
+            <input class="input-field" type="password" name="password" th:value="*{password}"/>
+        </div>
+        <input class="button" type="submit" value="Изменить 🔄"/>
+        <a href="/users">
+            <input class="button" type="button" value="Отмена ❌">
+        </a>
+    </form>
+</fieldset>
+</body>
+</html>

@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import web.model.User;
+import web.repository.UserRepository;
 import web.service.UserServiceEntity;
 
 /**
@@ -24,15 +26,18 @@ import web.service.UserServiceEntity;
 public class UserController {
 
     private static final String REDIRECT = "redirect:/users";
-    private final UserServiceEntity userService;
+    private final UserRepository userService;
 
     /**
      * Все пользователи
      */
     @GetMapping
-    public String allUsers(Model model) {
-        model.addAttribute("userList", userService.findAll());
-        return "users";
+    public ModelAndView allUsers() {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("users");
+        modelAndView.addObject("userList", userService.findAll());
+        return modelAndView;
     }
 
     /**
@@ -44,8 +49,8 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String addUser(@PathVariable("userId") Long userId, Model model, User user) {
-        userService.saveUser(user);
+    public String addUser(User user) {
+        userService.save(user);
         return REDIRECT;
     }
 
@@ -56,13 +61,13 @@ public class UserController {
      */
     @GetMapping("/update/{id}")
     public String updateUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("user", userService.findById(id).orElse(null));
         return "userUpdate";
     }
 
     @PostMapping("/update")
     public String updateUser(User user) {
-        userService.saveUser(user);
+        userService.save(user);
         return REDIRECT;
     }
 

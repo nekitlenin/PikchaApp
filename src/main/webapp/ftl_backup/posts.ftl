@@ -16,7 +16,7 @@
 <div id="content">
     <h3>Ваши публикации:</h3>
     <div class="right">
-        <form action="/users/${userId}/posts" method="get">
+        <form action="/posts/${user.id}" method="get">
             <p><label for="pageSize">Показать:</label>
                 <select id="pageSize" name="pageSize">
                     <option value=5 <#if pageSize == 5>selected</#if>>5</option>
@@ -62,10 +62,10 @@
                 <div class="mini-menu">
                     <button class="mini-menu-button">...</button>
                     <div class="mini-menu-actions">
-                        <a href="posts/${post.id}/update">
+                        <a href="${user.id}/update/${post.id}">
                             <button class="button">Изменить 🔄</button>
                         </a>
-                        <a href="posts/${post.id}/delete">
+                        <a href="${user.id}/delete/${post.id}">
                             <button class="button">Удалить ❌</button>
                         </a>
                     </div>
@@ -74,11 +74,14 @@
         </div>
     </#list>
 </div>
-<a class="fixed-bottom" href="/users/${user.id}/posts/add">
+<a class="fixed-bottom" href="/posts/${user.id}/add">
     <input class="button" type="submit" value="➕">
 </a>
 <a class="top-right" href="/users">
     <input class="button" type="submit" value="Админ-панель">
+</a>
+<a class="top-right" href="/logout">
+    <input class="button" type="submit" value="Выйти">
 </a>
 </body>
 </html>

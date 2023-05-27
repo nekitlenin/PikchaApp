@@ -31,25 +31,30 @@ public class LoginSignupController {
 
     @PostMapping("/signup")
     public String addUser(User user) {
-        userService.saveUser(user);
+        userService.save(user);
         return "login";
     }
+
+//    @GetMapping("/login")
+//    public String loginPage(Model model) {
+//        model.addAttribute("user", new User());
+//        return "login";
+//    }
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("user", new User());
+    public String loginPage() {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String confirmUser(User user, RedirectAttributes redirectAttributes) {
-        if (userService.existsUserByEmailAndPassword(user.getEmail(), user.getPassword()))
-            return "redirect:/users/" +
-                    userService.getUserByEmail(user.getEmail()).getId() +
-                    "/posts";
-        else {
-            redirectAttributes.addFlashAttribute("error", "Неправильно введены логин или пароль!");
-            return "redirect:/login";
-        }
-    }
+//    @PostMapping("/login")
+//    public String confirmUser(User user, RedirectAttributes redirectAttributes) {
+//        if (userService.existsUserByEmailAndPassword(user.getEmail(), user.getPassword()))
+//            return "redirect:/users/" +
+//                    userService.getUserByEmail(user.getEmail()).getId() +
+//                    "/posts";
+//        else {
+//            redirectAttributes.addFlashAttribute("error", "Неправильно введены логин или пароль!");
+//            return "redirect:/login";
+//        }
+//    }
 }

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf/extras/springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Посты</title>
+    <link rel="stylesheet" href="/resources/style.css"/>
+</head>
+<body>
+<img class="logo-img-top" src="/resources/logo.png" alt="Логотип">
+<div id="header">
+<!--    <h1 sec:authentication="name"></h1>-->
+<!--    <div sec:authorize="isAuthenticated()">-->
+<!--        <p> Ваш логин <span sec:authentication="name"></span></p>-->
+<!--        <p><a class="btn btn-lg btn-danger" th:href="@{/logout}" role="button">Выйти</a></p>-->
+<!--        <div/>-->
+    <div class="jumbotron" style="margin-top: 20px;">
+        <h1>MySecurityService</h1>
+        <p class="lead">MySecurityService - это сервис, предоставляющий всем желающим протестировать Security.</p>
+        <div sec:authorize="!isAuthenticated()">
+            <p><a class="btn btn-lg btn-success" th:href="@{/login}" role="button">Войти</a></p>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <p>Ваш логин: <span sec:authentication="principal.username"></span></p>
+            <p><a class="btn btn-lg btn-danger" th:href="@{/logout}" role="button">Выйти</a></p>
+        </div>
+    </div>
+        <h1>Профиль пользователя <span th:text="${user.name}"></span></h1>
+    </div>
+    <div id="content">
+        <h3>Ваши публикации:</h3>
+        <div class="right">
+            <form th:action="@{/posts/{userId} (userId=${user.id})}" th:method="get">
+                <p><label for="pageSize">Показать:</label>
+                    <select id="pageSize" name="pageSize">
+                        <option value="5" th:selected="${pageSize == 5}">5</option>
+                        <option value="10" th:selected="${pageSize == 10}">10</option>
+                        <option value="15" th:selected="${pageSize == 15}">15</option>
+                        <option value="20" th:selected="${pageSize == 20}">20</option>
+                        <option value="-1" th:selected="${pageSize == -1}">Все</option>
+                    </select>
+                    из <span th:text="${totalPosts}"></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <label for="page">Страница:</label>
+                    <select id="page" name="page">
+                        <option value="0" th:selected="${page == 0}">1</option>
+                        <option value="1" th:selected="${page == 1}">2</option>
+                        <option value="2" th:selected="${page == 2}">3</option>
+                        <option value="-1" th:selected="${page == -1}">Все</option>
+                    </select>
+                    из <span th:text="${totalPages}"></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <label for="sortType">Сортировать:</label>
+                    <select id="sortType" name="sortType">
+                        <option value="default" th:selected="${sortType == 'default'}">none</option>
+                        <option value="date" th:selected="${sortType == 'date'}">По дате</option>
+                        <option value="title" th:selected="${sortType == 'title'}">По заголовку</option>
+                    </select>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="button" type="submit" value="Применить">
+                </p>
+                <div class="error">
+                    <p th:if="${error}" th:text="${error}"></p>
+                </div>
+            </form>
+        </div>
+        <br>
+        <div th:each="post : ${postList}">
+            <div class="post">
+                <div class="post-title" th:text="${post.title}"></div>
+                <div class="post-content" th:text="${post.text}"></div>
+                <div class="post-date" th:text="${post.dateCreate}"></div>
+                <div class="post-actions">
+                    <div class="mini-menu">
+                        <button class="mini-menu-button">...</button>
+                        <div class="mini-menu-actions">
+                            <a th:href="@{'/posts/' + ${user.id} + '/update/' + ${post.id}}">
+                                <button class="button">Изменить 🔄</button>
+                            </a>
+                            <a th:href="@{'/posts/' + ${user.id} + '/delete/' + ${post.id}}">
+                                <button class="button">Удалить ❌</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="fixed-bottom" th:href="@{/posts/{userId}/add (userId=${user.id})}">
+        <input class="button" type="submit" value="➕">
+    </a>
+    <div>
+        <a class="top-right" th:href="@{/users}">
+            <input class="button" type="submit" value="Админ-панель">
+        </a>&nbsp;
+        <a class="top-right" th:href="@{/logout}">
+            <input class="button" type="submit" value="Выйти">
+        </a>
+    </div>
+</div>
+</body>
+</html>

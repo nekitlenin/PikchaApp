@@ -6,13 +6,17 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Редактор</title>
-    <link rel="stylesheet" href="/resources/style.css" />
+    <link rel="stylesheet" href="/resources/style.css"/>
 </head>
 <body>
 <img class="logo-img-top" src="/resources/logo.png" alt="Логотип">
 <fieldset>
-    <legend><h1>Редактировать пост<</h1>/legend>
-    <form class="form" name="user" action="/users/${userId}/posts/${post.id}/update" method="post">
+    <legend><h1>Редактировать пост</h1></legend>
+    <form class="form" name="user" action="/posts/${userId}/update/${post.id}" method="post">
+        <div class="form-group">
+            <label class="label">Идентификатор:</label>
+            <input class="input-field" type="number" name="id" value="${post.id}" readonly/>
+        </div>
         <div class="form-group">
             <label class="label">Заголовок:</label>
             <input class="input-field" type="text" name="title" value="${post.title}"/>
@@ -22,7 +26,7 @@
             <input class="input-field" type="text" name="text" value="${post.text}"/>
         </div>
         <input class="button" type="submit" value="Изменить ✅"/>
-        <a href="/users/${userId}/posts">
+        <a href="/posts/${userId}">
             <input class="button" type="button" value="Отмена ❌">
         </a>
     </form>

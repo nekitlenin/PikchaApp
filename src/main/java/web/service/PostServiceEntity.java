@@ -27,7 +27,7 @@ public class PostServiceEntity {
         return repository.getPostById(id);
     }
 
-    public void savePost(Post post) {
+    public void save(Post post) {
         repository.save(post);
     }
 

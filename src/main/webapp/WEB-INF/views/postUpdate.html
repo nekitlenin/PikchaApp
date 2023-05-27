@@ -5,24 +5,29 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Добавить пост</title>
+    <title>Редактор</title>
     <link rel="stylesheet" href="/resources/style.css"/>
 </head>
 <body>
 <img class="logo-img-top" src="/resources/logo.png" alt="Логотип">
 <fieldset>
-    <legend><h1>Добавить пост</h1></legend>
-    <form class="form" name="post" action="/users/${userId}/posts/add" method="post">
+    <legend><h1>Редактировать пост</h1></legend>
+    <form class="form" name="user" th:action="@{/posts/{userId}/update/{postId}
+    (userId=${userId}, postId=${post.id})}" th:method="post">
+        <div class="form-group">
+            <label class="label">Идентификатор:</label>
+            <input class="input-field" type="number" name="id" th:value="${post.id}" readonly/>
+        </div>
         <div class="form-group">
             <label class="label">Заголовок:</label>
-            <input class="input-field" type="text" name="title"/>
+            <input class="input-field" type="text" name="title" th:value="${post.title}"/>
         </div>
         <div class="form-group">
             <label class="label">Содержание:</label>
-            <input class="input-field" type="text" name="text"/>
+            <input class="input-field" type="text" name="text" th:value="${post.text}"/>
         </div>
-        <input class="button" type="submit" value="Добавить ✅"/>
-        <a href="/users/${userId}/posts">
+        <input class="button" type="submit" value="Изменить ✅"/>
+        <a th:href="@{'/posts/' + ${userId}}">
             <input class="button" type="button" value="Отмена ❌">
         </a>
     </form>
