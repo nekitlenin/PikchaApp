@@ -5,9 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import web.model.User;
-import web.service.UserServiceEntity;
+import web.service.UserService;
 
 /**
  * Project: Pikcha
@@ -21,7 +20,7 @@ import web.service.UserServiceEntity;
 @RequiredArgsConstructor
 public class LoginSignupController {
 
-    private final UserServiceEntity userService;
+    private final UserService userService;
 
     @GetMapping("/signup")
     public String registerPage(Model model) {
@@ -32,29 +31,11 @@ public class LoginSignupController {
     @PostMapping("/signup")
     public String addUser(User user) {
         userService.save(user);
-        return "login";
+        return "redirect:/login";
     }
-
-//    @GetMapping("/login")
-//    public String loginPage(Model model) {
-//        model.addAttribute("user", new User());
-//        return "login";
-//    }
 
     @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
-
-//    @PostMapping("/login")
-//    public String confirmUser(User user, RedirectAttributes redirectAttributes) {
-//        if (userService.existsUserByEmailAndPassword(user.getEmail(), user.getPassword()))
-//            return "redirect:/users/" +
-//                    userService.getUserByEmail(user.getEmail()).getId() +
-//                    "/posts";
-//        else {
-//            redirectAttributes.addFlashAttribute("error", "Неправильно введены логин или пароль!");
-//            return "redirect:/login";
-//        }
-//    }
 }

@@ -19,7 +19,7 @@ import web.repository.PostRepository;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class PostServiceEntity {
+public class PostService {
 
     private final PostRepository repository;
 

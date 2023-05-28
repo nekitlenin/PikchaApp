@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Project: Pikcha
@@ -36,7 +35,7 @@ public class Post {
     @Column(name = "date_create")
     private LocalDate dateCreate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 }

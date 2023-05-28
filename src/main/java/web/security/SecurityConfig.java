@@ -9,10 +9,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import web.service.UserServiceEntity;
 
 /**
  * Project: PikchaApp
@@ -29,8 +29,7 @@ import web.service.UserServiceEntity;
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     private final SuccessUserHandler successUserHandler;
-    private final UserServiceEntity userDetailsService;
-    private final UserSecurityService userSecurityService;
+    private final UserDetailsService userService;
 
     @Bean
     public static NoOpPasswordEncoder passwordEncoder() {
@@ -39,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -48,8 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/posts").access("hasAnyRole('ROLE_USER')")
-//                .antMatchers("/posts/{userId}").access("hasAnyRole('ROLE_USER') and @userSecurityService.isPostOwner(#userId, authentication)")
                 .antMatchers("/users").access("hasAnyRole('ROLE_ADMIN')")
+                .anyRequest().authenticated()
                 .and().formLogin()
                 .successHandler(successUserHandler);
 

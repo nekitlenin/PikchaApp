@@ -1,6 +1,6 @@
 package web.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,6 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Objects;
@@ -33,10 +31,10 @@ import java.util.Properties;
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableJpaRepositories(basePackages = {"web"})
 @PropertySource("classpath:db.properties")
+@RequiredArgsConstructor
 public class HibernateConfig {
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
@@ -73,22 +71,4 @@ public class HibernateConfig {
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
-
-//    @Bean
-//    public FreeMarkerViewResolver freemarkerViewResolver() {
-//        FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
-//        resolver.setCache(true);
-//        resolver.setPrefix("");
-//        resolver.setSuffix(".ftl");
-//        resolver.setContentType("text/html; charset=UTF-8");
-//        return resolver;
-//    }
-//
-//    @Bean
-//    public FreeMarkerConfigurer freemarkerConfig() {
-//        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
-//        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/views/");
-//        freeMarkerConfigurer.setDefaultEncoding("UTF-8");
-//        return freeMarkerConfigurer;
-//    }
 }

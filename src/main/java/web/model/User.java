@@ -67,10 +67,6 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
-//    @Override
-//    public String getUsername() {
-//        return name;
-//    }
 
     @Override
     public boolean isAccountNonExpired() {

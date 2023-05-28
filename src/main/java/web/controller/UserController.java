@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import web.model.User;
-import web.repository.UserRepository;
-import web.service.UserServiceEntity;
+import web.service.UserService;
 
 /**
  * Project: Pikcha
@@ -26,7 +25,7 @@ import web.service.UserServiceEntity;
 public class UserController {
 
     private static final String REDIRECT = "redirect:/users";
-    private final UserRepository userService;
+    private final UserService userRepository;
 
     /**
      * Все пользователи
@@ -36,7 +35,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("users");
-        modelAndView.addObject("userList", userService.findAll());
+        modelAndView.addObject("userList", userRepository.listAll());
         return modelAndView;
     }
 
@@ -50,7 +49,7 @@ public class UserController {
 
     @PostMapping("/add")
     public String addUser(User user) {
-        userService.save(user);
+        userRepository.save(user);
         return REDIRECT;
     }
 
@@ -61,13 +60,13 @@ public class UserController {
      */
     @GetMapping("/update/{id}")
     public String updateUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findById(id).orElse(null));
+        model.addAttribute("user", userRepository.get(id));
         return "userUpdate";
     }
 
     @PostMapping("/update")
     public String updateUser(User user) {
-        userService.save(user);
+        userRepository.save(user);
         return REDIRECT;
     }
 
@@ -78,7 +77,7 @@ public class UserController {
      */
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteById(id);
+        userRepository.delete(id);
         return REDIRECT;
     }
 }

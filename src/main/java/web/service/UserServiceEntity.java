@@ -26,7 +26,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserServiceEntity implements UserDetailsService {
+public class UserServiceEntity implements UserDetailsService, UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -50,15 +50,17 @@ public class UserServiceEntity implements UserDetailsService {
     }
 
     public void delete(long id) {
-        userRepository.deleteById(id);
+        roleRepository.deleteById(id);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email);
 
-        return listAll().stream()
-                .filter(a -> email.equals(a.getEmail()))
-                .findFirst()
-                .orElse(null);
     }
 }
